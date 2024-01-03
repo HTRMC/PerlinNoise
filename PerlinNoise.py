@@ -58,7 +58,10 @@ temperature_map = generate_stepped_perlin_noise(width, height, scale=100, octave
 humidity_map = generate_stepped_perlin_noise(width, height, scale=50, octaves=4, persistence=0.7, lacunarity=2.0,
                                              seed=np.random.randint(0, 100), num_steps=steps)
 
-# Setting up a figure with multiple plots for different noise maps
+# Creating a blended noise map as an average of all noise maps
+blended_noise_map = (continentalness_map + erosion_map + peaks_valleys_map + temperature_map + humidity_map) / 5
+
+# Setting up a figure with multiple plots for different noise maps and the blended one
 fig, axs = plt.subplots(2, 3, figsize=(10, 6))
 
 # Plotting and formatting each map
@@ -82,7 +85,8 @@ axs[1, 1].imshow(humidity_map, cmap='gray')
 axs[1, 1].set_title('Humidity')
 axs[1, 1].axis('off')
 
-# Leaving the last subplot empty
+axs[1, 2].imshow(blended_noise_map, cmap='gray')
+axs[1, 2].set_title('Blended Noise')
 axs[1, 2].axis('off')
 
 # Adjusting layout and displaying the plot
